@@ -56,3 +56,6 @@ ul li {
     line-height: 24px;
     color: rgb(255,64,129);
 }
+ul .example-chat-username {
+    margin-right: 10px;
+}

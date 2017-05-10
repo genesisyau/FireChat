@@ -16,6 +16,8 @@ $(document).ready(function(){
   const $btnSignUp = $('#btnSignUp');
   const $btnSignOut = $('#btnSignOut');
   const $btnSubmit = $('#btnSubmit');
+  const $btnChat = $('#btnChat');
+  const $btnHome = $('#btnHome');
   const $signInfo = $('#sign-info');
   const $email = $('#email');
   const $password = $('#password');
@@ -26,6 +28,7 @@ $(document).ready(function(){
   const $profileAge = $('#profile-age');
   const $profileAbout = $('profile-about');
   const $photo = $('#photo');
+  const $messageField = $('#');
 //log in
   $btnSignIn.click(function(e){
     const auth = firebase.auth();
@@ -83,16 +86,16 @@ $(document).ready(function(){
    $btnSubmit.click(function(e){
      const user = firebase.auth().currentUser;
      const $userName = $('#userName').val();
-     const $occupation = $('#occupation').val();
-     const $age = $('#age').val();
+     const $profileOccupation = $('#occupation').val();
+     const $profileAge = $('#age').val();
      const $photo = $('#photo').val();
-     const $about = $('#about').val();
+     const $profileAbout = $('#about').val();
      const promise = user.updateProfile({
        displayName: $userName,
-       photo: photo,
-       occupation: $occupation,
-       age: $age,
-       about: $about
+       photo: $photo,
+       occupation: $profileOccupation,
+       age: $profileAge,
+       about: $profileAbout
      });
      //redirecting to profile page
      promise.then(function(e) {
@@ -112,10 +115,9 @@ firebase.auth().onAuthStateChanged(function(user){
      $btnSignOut.removeAttr('disabled')
      $profileName.html(user.displayName);
      $profileEmail.html(user.email);
-     $profileUsername.html(user.userName);
-     $profileOccupation.html(user.occupation);
-     $profileAge.html(user.age);
-     $profileAbout.html(user.about);
+     $profileOccupation.html(user.profileOccupation);
+     $profileAge.html(user.profileAge);
+     $profileAbout.html(user.profileAbout);
      $photo.attr("src",user.photo);
    } else {
      console.log("not logged in");
@@ -128,4 +130,27 @@ firebase.auth().onAuthStateChanged(function(user){
      $photo.attr("src","");
    }
  });
+ $btnChat.click(function(e){
+
+   //redirecting to chat page
+   promise.then(function(e) {
+     console.log("chat room");
+     window.location.href = "./chatroom.html";
+   });
+});
+
+//chat
+$messageField.keypress(function (e) {
+   if (e.keyCode == 13) {
+     var username = $nameField.val();
+     var message = $messageField.val();
+     console.log(username);
+     console.log(message);
+     dbRef.push({name:username, text:message});
+     $messageField.val('');
+   }
+ });
+
+
+
 });
