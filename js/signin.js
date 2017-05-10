@@ -28,7 +28,8 @@ $(document).ready(function(){
   const $profileAge = $('#profile-age');
   const $profileAbout = $('profile-about');
   const $photo = $('#photo');
-  const $messageField = $('#');
+  const $messageField = $('#')
+  const $messagingSenderId = $('#')
 //log in
   $btnSignIn.click(function(e){
     const auth = firebase.auth();
@@ -130,14 +131,6 @@ firebase.auth().onAuthStateChanged(function(user){
      $photo.attr("src","");
    }
  });
- $btnChat.click(function(e){
-
-   //redirecting to chat page
-   promise.then(function(e) {
-     console.log("chat room");
-     window.location.href = "./chatroom.html";
-   });
-});
 
 //chat
 $messageField.keypress(function (e) {
@@ -146,11 +139,9 @@ $messageField.keypress(function (e) {
      var message = $messageField.val();
      console.log(username);
      console.log(message);
+
      dbRef.push({name:username, text:message});
      $messageField.val('');
    }
  });
-
-
-
 });
